@@ -1,6 +1,6 @@
 const express = require("express");
 const routes = require('./routes/api');
-const router = require('./routes/Registrationroutes');
+const route = require('./routes/Userroute');
   
   require('dotenv').config();
 require('./helpers/init_mongodb');
@@ -10,6 +10,7 @@ require('./helpers/init_mongodb');
 const app = express ();
 app.use(express.json())
 app.use(routes);
+app.use(route);
 
 //handling 404 error
 app.use((req, res, next)=>{
