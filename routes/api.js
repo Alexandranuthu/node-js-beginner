@@ -4,14 +4,17 @@ const routes = express.Router();
 
 const Student = require('../model/Studentsmodels');
 const studentController = require('../controller/studentController');
+const { verifyAccessToken } = require('../helpers/JWThelper');
 
 //get a list of students from the database
-routes.get("/students/:id", async (req, res)=>{
+routes.get("/students/:id",verifyAccessToken, async (req, res)=>{
     const result = await Student.find({});
     res.send(/*{type:"Get Request"}*/ result);
 });
 
-routes.post('/students/:id', studentController.AddStudent);
+routes.get('/students', verifyAccessToken, studentController.getAllStudents);
+
+routes.post('/students', studentController.AddStudent);
 
 // Update students in the DB
 // routes.put("/students/:id", (req, res)=>{

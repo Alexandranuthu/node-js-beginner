@@ -12,6 +12,15 @@ module.exports = {
             console.error(error.message);
         }
     },
+    getAllStudents: async (req, res) => {
+        try {
+            const students = await Student.find({})
+            res.send(students)
+        } catch (error) {
+            console.log(error.message)
+            res.status(500).send('Internal Server Error')
+        }
+    },
     getStudent: async (req, res, next) => {
         const id = req.params.id;
         try {
