@@ -3,14 +3,14 @@ const createError = require('http-errors');
 const User = require('../model/Usermodels');
 
 module.exports ={
-    signAccessToken:(User)=>{
+    signAccessToken:(UserId)=>{
         return new Promise((resolve, reject)=>{
             const payload ={}
             const secret = process.env.ACCESS_TOKEN_SECRET;
             const options = {
-                expiresIn: '1m',
+                expiresIn: '1h',
                 issuer: 'Alextech.com',
-                audience: User,
+                audience: UserId,
             }
             JWT.sign(payload, secret, options, (error, token)=>{
                 if(error){

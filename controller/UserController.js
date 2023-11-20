@@ -78,7 +78,7 @@ module.exports = {
     login: async (req, res, next)=>{
         try{
             const result = await authSchema.validateAsync(req.body);
-            const user = await User.findOne({email: result.email});
+            const user = await User.findOne({email:result.email});
             if(!user) throw createError.NotFound('User not registered');
 
             const isMatch = await user.isvalidPassword(result.password);
@@ -98,11 +98,11 @@ module.exports = {
         try{
             const { refreshToken } = req.body;
             if(!refreshToken)throw createError.BadRequest();
-            const UserId = await verifyRefreshToken(refreshToken);
+            const userId = await verifyRefreshToken(refreshToken);
 
             const accessToken =  await signAccessToken(userId);
             const refToken = await signRefreshToken(userId);
-            res.send({accessToken:accessToken, refreshToken:refToken});
+            res.send({accessToken, refreshToken : refToken});
         }catch(error){
             next(error);
         }

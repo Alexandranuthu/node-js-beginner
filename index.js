@@ -1,40 +1,48 @@
 const express = require("express");
+const cors = require("cors");
+const mongoose = require("mongoose");
+const bodyParser = require("body-parser");
+
 const routes = require('./routes/api');
 const route = require('./routes/Userroute');
-  
-  require('dotenv').config();
+
+require('dotenv').config();
 require('./helpers/init_mongodb');
 
+const app = express();
 
+app.use(cors({
+  origin: "http://localhost:3000",
+}));
 
-const app = express ();
-app.use(express.json())
+app.use(express.json());
 app.use(routes);
 app.use(route);
 
-//handling 404 error
-app.use((req, res, next)=>{
-  const err = new Error("Not found");
-  err.status = 404
-  next(err)
-})
+// Connect to MongoDB
+// mongoose.connect('mongodb://localhost/studentAPI', { useNewUrlParser: true, useUnifiedTopology: true });
+// mongoose.Promise = global.Promise;
 
-//Error Handler
-app.use((err, req, res, next)=>{
-  res.status(err.status || 500)
-  res.send({
-    error:{
+app.use(bodyParser.json());
+
+// Handling 404 error
+app.use((req, res, next) => {
+  const err = new Error("Not found");
+  err.status = 404;
+  next(err);
+});
+
+// Error Handler
+app.use((err, req, res, next) => {
+  res.status(err.status || 500).send({
+    error: {
       status: err.status || 500,
       message: err.message
     }
-
-  })
-})
-
-
-
-app.listen(process.env.PORT || 4000, function(){
-    console.log("now listening for request on: http://localhost:4000");
+  });
 });
 
-
+const port = process.env.PORT || 4000;
+app.listen(port, () => {
+  console.log(`Server is now listening for requests on: http://localhost:${port}`);
+});

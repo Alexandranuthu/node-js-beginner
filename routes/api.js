@@ -14,7 +14,7 @@ routes.get("/students/:id",verifyAccessToken, async (req, res)=>{
 
 routes.get('/students', verifyAccessToken, studentController.getAllStudents);
 
-routes.post('/students', studentController.AddStudent);
+routes.post('/students',verifyAccessToken, studentController.AddStudent);
 
 // Update students in the DB
 // routes.put("/students/:id", (req, res)=>{

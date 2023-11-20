@@ -12,7 +12,8 @@ const authSchema = require("../auth/auth_schema").authSchema;
 //POST
 route.post('/register', UserController.Adduser);
 route.delete('/register/:id', UserController.deleteUser);
-route.post('/refresh', UserController.refreshToken);
+route.post('/register/login', UserController.login);
+route.post('/register/refresh', UserController.refreshToken);
 
 
 
